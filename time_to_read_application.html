@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time to Read - Classic & Easy Literature</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --bg-color:#f4f1ea;
+  --card-bg:#ffffff;
+  --primary:#2c3e50;
+  --accent:#8b0000;
+  --text:#333;
+  --light-text:#666;
+  --border:#e0dacf;
+  --success:#2e7d32;
+  --error:#c62828;
+}
+
+body{
+  font-family:Georgia, serif;
+  background:var(--bg-color);
+  color:var(--text);
+  margin:0;
+  padding:20px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+}
+
+/* Landing Page Overlay */
+#landingPage {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
+}
+
+.landing-logo {
+  max-width: 160px;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+#landingPage h1 {
+  font-size: 2.8rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#landingPage .tagline {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--accent);
+  margin-bottom: 30px;
+}
+
+.landing-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.landing-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  font-family: sans-serif;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.landing-btn:hover {
+  background: #1a252f;
+  transform: translateY(-2px);
+}
+
+.landing-btn.easy {
+  background: var(--accent);
+}
+.landing-btn.easy:hover {
+  background: #660000;
+}
+
+/* App View */
+#appView {
+  display: none;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.back-btn {
+  background: #e2dcd0;
+  border: none;
+  padding: 8px 16px;
+  font-family: sans-serif;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #555;
+}
+.back-btn:hover { background: #d0c8b8; }
+
+/* Mode Selector */
+.mode-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.mode-btn {
+  background: #e2dcd0;
+  border: none;
+  padding: 8px 16px;
+  font-family: sans-serif;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #555;
+}
+
+.mode-btn.active {
+  background: var(--primary);
+  color: white;
+}
+
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:30px;
+  margin-bottom:25px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.book-header{
+  text-align:center;
+  border-bottom:2px solid var(--accent);
+  margin-bottom:20px;
+  padding-bottom:15px;
+}
+
+.book-title{
+  color:var(--accent);
+  margin:0;
+  text-transform:uppercase;
+  font-size: 1.8rem;
+}
+
+.book-author{
+  margin-top:8px;
+  color:var(--light-text);
+  font-style:italic;
+  font-size: 1.1rem;
+}
+
+.extract-text{
+  line-height:1.8;
+  font-size:1.1rem;
+  white-space:pre-line;
+}
+
+.summary-box{
+  display:none;
+  margin-top:20px;
+  padding:15px;
+  border-left:4px solid var(--accent);
+  background:#faf7f2;
+  font-family:sans-serif;
+}
+
+.buttons{
+  margin-top:20px;
+  display:flex;
+  gap:12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn{
+  border:none;
+  padding:10px 18px;
+  cursor:pointer;
+  border-radius:4px;
+  color:white;
+  font-family: sans-serif;
+  font-size: 0.95rem;
+}
+
+.primary-btn{
+  background:var(--primary);
+}
+.primary-btn:hover { background: #1a252f; }
+
+.summary-btn{
+  background:var(--accent);
+}
+.summary-btn:hover { background: #660000; }
+
+.tts-btn {
+  background: #27ae60;
+}
+.tts-btn:hover { background: #1e8449; }
+
+/* Audio Controls Group */
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f0f7f4;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #a5d6a7;
+  font-family: sans-serif;
+  flex-wrap: wrap;
+}
+
+.audio-ctrl-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.audio-select {
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.85rem;
+  background: #fff;
+  color: #333;
+}
+
+.quiz-title{
+  font-family:sans-serif;
+  color:var(--primary);
+  margin-bottom:20px;
+  font-size: 1.3rem;
+}
+
+.question-item{
+  margin-bottom:20px;
+  padding-bottom:15px;
+  border-bottom:1px solid var(--border);
+  font-family:sans-serif;
+}
+
+.question-text{
+  font-weight:600;
+  margin-bottom:10px;
+  font-size: 1.05rem;
+}
+
+.options-group{
+  display:flex;
+  gap:10px;
+}
+
+.option-btn{
+  padding:6px 16px;
+  cursor:pointer;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.option-btn.selected{
+  background:var(--primary);
+  color:white;
+  border-color: var(--primary);
+}
+
+.feedback{
+  margin-top:8px;
+  font-weight:bold;
+  font-size: 0.9rem;
+}
+
+.correct{
+  color:var(--success);
+}
+
+.incorrect{
+  color:var(--error);
+}
+
+.teacher-section{
+  background:#f0f7f4;
+  border:1px dashed var(--success);
+  font-family:sans-serif;
+}
+
+.teacher-title{
+  color:var(--success);
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.vocab-list{
+  list-style:none;
+  padding:0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.vocab-tag {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  color: #1b5e20;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Landing Page Overlay -->
+  <div id="landingPage">
+    <img src="generic logo.jpg" alt="Linguistics & Writing Logo" class="landing-logo">
+    <h1>Time to Read</h1>
+    <div class="tagline">"Time to enjoy some reading... have fun!"</div>
+    <div class="landing-buttons">
+      <button class="landing-btn" onclick="startApp('classic')">📚 The Classics</button>
+      <button class="landing-btn easy" onclick="startApp('easy')">⭐ Easy Reading</button>
+    </div>
+  </div>
+
+  <!-- App View -->
+  <div id="appView">
+    <div class="nav-bar">
+      <button class="back-btn" onclick="returnToLanding()">← Home</button>
+      <div class="mode-selector">
+        <button class="mode-btn" id="btnClassic" onclick="switchMode('classic')">📚 Classic Literature</button>
+        <button class="mode-btn" id="btnEasy" onclick="switchMode('easy')">⭐ Easy Reader</button>
+      </div>
+    </div>
+
+    <!-- Main Extract Card -->
+    <div class="card">
+      <div class="book-header">
+        <h2 id="bookTitle" class="book-title"></h2>
+        <div id="bookAuthor" class="book-author"></div>
+      </div>
+
+      <div id="extractText" class="extract-text"></div>
+
+      <div class="buttons">
+        <button class="btn summary-btn" onclick="toggleSummary()">Summarize</button>
+        
+        <!-- Audio Controls Block -->
+        <div class="audio-controls">
+          <span class="audio-ctrl-label">Speed:</span>
+          <select id="speedSelect" class="audio-select">
+            <option value="0.9" selected>Normal</option>
+            <option value="0.7">Slow</option>
+          </select>
+
+          <span class="audio-ctrl-label" style="margin-left: 5px;">Voice:</span>
+          <select id="voiceGenderSelect" class="audio-select" onchange="filterVoicesByGender()">
+            <option value="all">All Voices</option>
+            <option value="man">Man</option>
+            <option value="woman">Woman</option>
+          </select>
+
+          <select id="voiceListSelect" class="audio-select" style="max-width: 140px;">
+            <option value="">Default Voice</option>
+          </select>
+        </div>
+
+        <button class="btn tts-btn" id="ttsBtn" onclick="toggleSpeech()">🔊 Listen</button>
+        <button class="btn primary-btn" onclick="loadRandomPassage()">New Passage</button>
+      </div>
+
+      <div id="summaryBox" class="summary-box"></div>
+    </div>
+
+    <!-- Quiz Card -->
+    <div class="card">
+      <h3 class="quiz-title">Reading Comprehension: True or False</h3>
+      <div id="quizContainer"></div>
+      <button class="btn primary-btn" style="margin-top: 15px;" onclick="checkAnswers()">Submit Answers</button>
+    </div>
+
+    <!-- Teacher / Vocabulary Card -->
+    <div class="card teacher-section">
+      <h3 class="teacher-title">Key Vocabulary & Discussion</h3>
+      <p>Target key vocabulary words in this extract:</p>
+      <ul id="vocabList" class="vocab-list"></ul>
+      <p style="margin-bottom: 0; font-size: 0.95rem;">
+        <strong>Discussion Prompt:</strong> <span id="discussionPrompt"></span>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Classic Passages Library
+const classicPassages = [
+  {
+    title: "A Portrait of the Artist as a Young Man",
+    author: "James Joyce",
+    extract: "The elements of rampant pine and decaying leaves drifted through the chilly air as he walked down the avenue. Once upon a time and a very good time it was there was a moocow coming down along the road and this moocow that was coming down along the road met a nicens little boy named baby tuckoo.... His father told him that story: his father looked at him through a glass: he had a hairy face. He was baby tuckoo. The moocow came down the road where Betty Byrne lived: she sold lemon platt.",
+    summary: "Simplified Summary:\nWhile walking, Stephen Dedalus recalls fragmented childhood memories of his father telling him a whimsical nursery story about a moocow and baby tuckoo.",
+    vocab: [
+      "Rampant: flourishing or spreading unchecked",
+      "Fragmented: broken into small or separate parts",
+      "Platt: a sweet or candy (regional confection)",
+      "Whimsical: playfully quaint or fanciful"
+    ],
+    discussion: "How does Joyce use stream-of-consciousness to mimic a young child's early memories?",
+    questions: [
+      { question: "The passage recalls a nursery story about a moocow.", answer: true },
+      { question: "Stephen's father told him the story looking through a glass.", answer: true },
+      { question: "The story features a character named baby tuckoo.", answer: true },
+      { question: "Betty Byrne is described as selling heavy iron tools.", answer: false },
+      { question: "The mood of the recollection is strictly formal and legalistic.", answer: false }
+    ]
+  },
+  {
+    title: "Pride and Prejudice",
+    author: "Jane Austen",
+    extract: "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife. However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.",
+    summary: "Simplified Summary:\nAusten opens with a satirical observation about society's expectation that wealthy single men are automatically looking to marry.",
+    vocab: [
+      "Acknowledged: recognized or admitted",
+      "Fortune: a large amount of wealth or money",
+      "Neighbourhood: the surrounding area or community",
+      "Rightful: having a legitimate right to something"
+    ],
+    discussion: "How does the famous opening sentence set the satirical tone for the rest of the novel?",
+    questions: [
+      { question: "The narrator states it is a universally acknowledged truth.", answer: true },
+      { question: "A single man with a fortune is assumed to want a wife.", answer: true },
+      { question: "Local families immediately view the newcomer as independent.", answer: false },
+      { question: "The community considers him the property of local daughters.", answer: true },
+      { question: "The passage deals with financial poverty and hardship.", answer: false }
+    ]
+  },
+  {
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    extract: "In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since. 'Whenever you feel like criticizing any one,' he told me, 'just remember that all the people in this world haven't had the advantages that you've had.' He didn't say any more, but we've always been unusually communicative in a reserved way, and I understood that he meant a great deal more than that.",
+    summary: "Simplified Summary:\nNick Carraway reflects on his father's advice about reserving judgment for others who have not enjoyed the same life advantages.",
+    vocab: [
+      "Vulnerable: susceptible to physical or emotional attack or harm",
+      "Communicative: willing to talk or share information",
+      "Reserved: slow to reveal emotion or opinions",
+      "Advantage: a circumstance that puts one in a favorable position"
+    ],
+    discussion: "How does Nick's opening reflection establish his role as a narrator and observer?",
+    questions: [
+      { question: "Nick's father gave him advice during his younger years.", answer: true },
+      { question: "The advice was to criticize everyone you meet.", answer: false },
+      { question: "Not everyone in the world has had the same advantages.", answer: true },
+      { question: "Nick and his father are described as unusually communicative.", answer: true },
+      { question: "Nick completely ignores his father's words.", answer: false }
+    ]
+  },
+  {
+    title: "Moby-Dick",
+    author: "Herman Melville",
+    extract: "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet...",
+    summary: "Simplified Summary:\nIshmael introduces himself and explains that he goes to sea whenever he feels depressed or restless on land.",
+    vocab: [
+      "Spleen: bad temper or melancholy (depression)",
+      "Involuntarily: done without conscious control",
+      "Precise: marked by exactness and accuracy",
+      "Circulation: the movement of blood through the body"
+    ],
+    discussion: "What does Ishmael mean when he describes a 'damp, drizzly November in my soul'?",
+    questions: [
+      { question: "The narrator introduces himself with the name Ishmael.", answer: true },
+      { question: "He goes to sea because he has plenty of land money.", answer: false },
+      { question: "Sailing helps him drive off melancholy and bad moods.", answer: true },
+      { question: "He often finds himself pausing before coffin warehouses.", answer: true },
+      { question: "The story takes place entirely in a desert.", answer: false }
+    ]
+  },
+  {
+    title: "Jane Eyre",
+    author: "Charlotte Brontë",
+    extract: "There was no possibility of taking a walk that day. We had been wandering, indeed, in the leafless shrubbery an hour in the morning; but since dinner (Mrs. Fairfax, when she was there, did not take lunch) the cold winter wind had brought with it clouds so sombre and rain so piercing, freezing as it fell, that further outdoor exercise was now completely out of the question.",
+    summary: "Simplified Summary:\nBad winter weather traps Jane indoors, preventing any outdoor walks and establishing a gloomy, isolated atmosphere.",
+    vocab: [
+      "Leafless: having no leaves (due to winter)",
+      "Sombre: dark or dull in color or tone; gloomy",
+      "Piercing: sharp, biting, or penetrating (like cold rain)",
+      "Shrubbery: a area planted with shrubs"
+    ],
+    discussion: "How does the weather at the beginning of the chapter mirror Jane's internal emotional state?",
+    questions: [
+      { question: "It was possible to take a long walk all afternoon.", answer: false },
+      { question: "They had wandered in the leafless shrubbery that morning.", answer: true },
+      { question: "A cold winter wind brought sombre clouds and piercing rain.", answer: true },
+      { question: "Mrs. Fairfax usually ate lunch with the household.", answer: false },
+      { question: "Outdoor exercise was completely out of the question.", answer: true }
+    ]
+  },
+  {
+    title: "The Tell-Tale Heart",
+    author: "Edgar Allan Poe",
+    extract: "True!—nervous—very, very dreadfully nervous I had been and am; but why will you say that I am mad? The disease had sharpened my senses—not destroyed—not dulled them. Above all was the sense of hearing acute. I heard all things in the heaven and in the earth. I heard many things in hell. How, then, am I mad? Hearken! and observe how healthily—how calmly I can tell you the whole story.",
+    summary: "Simplified Summary:\nAn anxious narrator passionately insists they are completely sane while describing how a heightened sense of hearing makes them perceive everything in heaven, earth, and hell.",
+    vocab: [
+      "Nervous: easily agitated or alarmed; highly sensitive",
+      "Acute: sharply perceptive or sensitive (hearing)",
+      "Mad: mentally ill or insane",
+      "Hearken: listen; pay close attention"
+    ],
+    discussion: "How does Poe establish an unreliable and tense narrator right from the opening lines?",
+    questions: [
+      { question: "The narrator admits to being extremely nervous.", answer: true },
+      { question: "The narrator claims their illness dulled their senses.", answer: false },
+      { question: "The narrator's sense of hearing became exceptionally acute.", answer: true },
+      { question: "The narrator insists that they are completely mad and chaotic.", answer: false },
+      { question: "The narrator promises to tell the story calmly and healthily.", answer: true }
+    ]
+  },
+  {
+    title: "A Farewell to Arms",
+    author: "Ernest Hemingway",
+    extract: "In the late summer of that year we lived in a house in a village that looked across the river and the plain to the mountains. The water was clear and swiftly moving. Troops went by the house and down the road and the dust they raised powdered the leaves of the trees. The plain was rich with crops. Beyond it the mountains stood bare and brown. Fighting continued there and at night flashes from the artillery could be seen in the distance. In darkness the flashes resembled summer lightning, yet there was no storm approaching. Sometimes troops marched beneath the window while heavy guns passed along the road pulled by tractors.",
+    summary: "Simplified Summary:\nThe narrator describes a peaceful rural landscape juxtaposed with the constant movement of troops, heavy machinery, and distant warfare in the mountains.",
+    vocab: [
+      "Artillery: heavy military guns",
+      "Powdered: covered with fine dust",
+      "Plain: a large area of flat land",
+      "Tractors: powerful motor vehicles"
+    ],
+    discussion: "How does Hemingway combine natural beauty with images of war in the exact same paragraph?",
+    questions: [
+      { question: "The passage takes place in late summer.", answer: true },
+      { question: "The river water is muddy and completely still.", answer: false },
+      { question: "Troops regularly pass along the road outside the house.", answer: true },
+      { question: "A severe thunderstorm arrives every single evening.", answer: false },
+      { question: "Artillery flashes can be seen lighting up the mountain darkness.", answer: true }
+    ]
+  },
+  {
+    title: "The Merchant of Venice",
+    author: "William Shakespeare",
+    extract: "To bait fish withal: if it will feed nothing else, it will feed my revenge. He hath disgraced me, and hindered me half a million; laughed at my losses, mocked at my gains, scorned my nation, thwarted my bargains, cooled my friends, heated mine enemies; and what's his reason? I am a Jew. Hath not a Jew eyes? hath not a Jew hands, organs, dimensions, senses, affections, passions? fed with the same food, hurt with the same weapons, subject to the same diseases, healed by the same means, warmed and cooled by the same winter and summer, as a Christian is? If you prick us, do we not bleed?",
+    summary: "Simplified Summary:\nShylock passionately argues that Jews share the exact same human feelings, physical vulnerabilities, and emotional capacity as Christians, justifying his desire for revenge due to continuous mistreatment.",
+    vocab: [
+      "Bait: food used to attract fish or animals",
+      "Disgraced: brought shame upon or insulted",
+      "Thwarted: prevented someone from accomplishing something",
+      "Prick: to pierce slightly with a sharp point"
+    ],
+    discussion: "How does Shakespeare use rhetorical questions to challenge prejudice in this speech?",
+    questions: [
+      { question: "Shylock claims that he has been mocked and scorned.", answer: true },
+      { question: "Shylock argues that Jews do not bleed when cut.", answer: false },
+      { question: "He states that Christians and Jews experience the same seasons.", answer: true },
+      { question: "Shylock expresses complete forgiveness for his enemies.", answer: false },
+      { question: "The speech centers around the shared humanity of different groups.", answer: true }
+    ]
+  },
+  {
+    title: "One Day in the Life of Ivan Denisovich",
+    author: "Aleksandr Solzhenitsyn",
+    extract: "At five o'clock on the morning as usual reveille was sounded—the hammer blows on a rail outside the headquarters barack. The ice on the window panes was two fingers thick, and the frost was coming off the walls in thick white fur. The orderly dragged himself out from under his blanket and went off to hammer. The blows died away in the frosty haze. It was bitterly cold, dark, and bleak. Shukhov stayed in his bunk, wrapped in his blanket and warm rags, listening to every sound, wondering if he would report sick today.",
+    summary: "Simplified Summary:\nA harsh prison camp morning begins early with a metal rail sounding wake-up calls through thick frost. Inmate Shukhov lingers in his bunk, debating whether to report sick in the freezing cold.",
+    vocab: [
+      "Reveille: a signal sounded to wake up personnel",
+      "Frost: ice crystals formed on surfaces",
+      "Barack: a building used to house soldiers or prisoners",
+      "Bleak: dreary, cold, and miserable"
+    ],
+    discussion: "What details does the author use to convey the extreme physical hardship of the camp morning?",
+    questions: [
+      { question: "Wake-up call is signalled by hammer blows on a rail.", answer: true },
+      { question: "The weather inside and outside the room is warm and pleasant.", answer: false },
+      { question: "The ice on the window panes is described as very thick.", answer: true },
+      { question: "Shukhov immediately jumps out of bed cheerfully.", answer: false },
+      { question: "Shukhov considers whether he should report sick.", answer: true }
+    ]
+  },
+  {
+    title: "The Betrothed",
+    author: "Alessandro Manzoni",
+    extract: "That branch of the lake of Como, which bends toward the south, between two unbroken chains of mountains, is all enclosed by gulfs and bays, corresponding to the indentations of the hills. The waters suddenly grow calm and narrow between two promontories, presenting the appearance of a great river. The bridge which there joins the two banks seems to make the transition even more striking, and points out the exact spot where the lake ceases and the Adda recommences, though the current still retains the name of lake for a considerable distance.",
+    summary: "Simplified Summary:\nThe narrator paints a scenic geographical portrait of Lake Como as it narrows, flows toward the south between mountains, and transitions into a river current near a bridge.",
+    vocab: [
+      "Promontory: a point of high land jutting out into a body of water",
+      "Transition: the process of changing from one state to another",
+      "Indentation: a deep recess or notch in a surface",
+      "Enclosed: surrounded or closed in on all sides"
+    ],
+    discussion: "How does Manzoni establish a vivid sense of place right at the opening of the novel?",
+    questions: [
+      { question: "The passage describes a specific branch of Lake Como.", answer: true },
+      { question: "The landscape is entirely flat with no mountains present.", answer: false },
+      { question: "The water narrows and gives the appearance of a great river.", answer: true },
+      { question: "A bridge connects the two banks across the water.", answer: true },
+      { question: "The area described is located in a bustling desert.", answer: false }
+    ]
+  },
+  {
+    title: "If This Is a Man",
+    author: "Primo Levi",
+    extract: "We reached the station at Auschwitz after a journey sealed in freight cars for four days and nights. Thirst and exhaustion had worn us down, but the worst shock was the silence that greeted our arrival. There were no shouts or orders, only the barking of dogs and the low voices of men in striped uniforms moving with methodical haste. In the pale dawn light, the enormous wire fences and concrete watchtowers stood grimly against the grey sky, revealing a world completely separate from ordinary human existence.",
+    summary: "Simplified Summary:\nAfter an exhausting four-day train journey, exhausted prisoners arrive at Auschwitz, greeted by an eerie silence, guard dogs, and grim watchtowers under the grey dawn.",
+    vocab: [
+      "Exhaustion: a state of extreme physical or mental tiredness",
+      "Methodical: done according to a systematic or established procedure",
+      "Grimly: in a very serious, gloomy, or depressing manner",
+      "Freight: goods transported in bulk by truck, train, or ship"
+    ],
+    discussion: "Why does Levi emphasize the eerie silence and watchtowers upon arrival?",
+    questions: [
+      { question: "The prisoners traveled by train for four days.", answer: true },
+      { question: "They were welcomed with cheerful celebrations at the station.", answer: false },
+      { question: "Guard dogs and watchtowers were visible upon arrival.", answer: true },
+      { question: "The environment felt entirely separate from normal life.", answer: true },
+      { question: "Everyone on the platform was smiling and relaxed.", answer: false }
+    ]
+  },
+  {
+    title: "Richard III",
+    author: "William Shakespeare",
+    extract: "Now is the winter of our discontent made glorious summer by this sun of York; and all the clouds that lour'd upon our house in the deep bosom of the ocean buried. Now are our bounds bruised helmets hung up for monuments, our stern alarums changed to merry meetings, our dreadful marches to delightful measures. Grim-visaged war hath smoothed his wrinkled front; and now, instead of mounting barbed steeds to fright the souls of the fearful adversaries, he has cast aside armor and turned peaceful celebrations festivities.",
+    summary: "Simplified Summary:\nWith the York family now victorious, a bleak period of civil war and hardship has turned into a peaceful, celebratory summer of royal triumph.",
+    vocab: [
+      "Discontent: dissatisfaction with one's circumstances",
+      "Lour'd: looked angry or sullen (darkened/threatened)",
+      "Monuments: statues or structures preserving memory",
+      "Festivities: activities celebrating a special occasion"
+    ],
+    discussion: "How does the metaphor of seasons represent the political shift in the kingdom?",
+    questions: [
+      { question: "The speech begins by mentioning a 'winter of our discontent'.", answer: true },
+      { question: "The country remains actively involved in bloody battles.", answer: false },
+      { question: "Dreadful military marches have turned into peaceful celebrations.", answer: true },
+      { question: "War is personified as having smoothed his wrinkled front.", answer: true },
+      { question: "The speaker is expressing deep sorrow and despair.", answer: false }
+    ]
+  },
+  {
+    title: "Modern Narrative: The Midnight Signal",
+    author: "Contemporary Fiction",
+    extract: "The train rattled down the tracks, cutting through the dense coastal fog that clung to the windows like wet cotton. Inside carriage four, Maya stared at the small silver pocket watch resting on her palm. It had stopped ticking precisely at midnight, matching the exact moment the lights across the entire valley flickered and died. Outside, the dark silhouettes of pine trees whipped past in a blur. She adjusted her collar against the sudden chill, wondering if the stationmaster in the next town would have any answers about the grid failure.",
+    summary: "Simplified Summary:\nWhile riding a foggy night train, Maya notices her watch stopped at midnight right as regional power failed, leaving her curious and uneasy about what lies ahead at the next station.",
+    vocab: [
+      "Silhouettes: dark shapes or outlines against a lighter background",
+      "Grid: an interconnected network for delivering electricity",
+      "Uneasy: causing or feeling anxiety; troubled",
+      "Dense: closely compacted in substance"
+    ],
+    discussion: "How does the author build suspense and mood in this opening scene?",
+    questions: [
+      { question: "Maya is traveling on a train through coastal fog.", answer: true },
+      { question: "Her silver watch is still ticking normally.", answer: false },
+      { question: "The power grid across the valley failed at midnight.", answer: true },
+      { question: "Maya knows immediately what caused the blackout.", answer: false },
+      { question: "The atmosphere of the scene is suspenseful and chilly.", answer: true }
+    ]
+  }
+];
+
+// Easy Reader Passages Library
+const easyPassages = [
+  {
+    title: "The Friendly Yellow Dog",
+    author: "Easy Reader Collection",
+    extract: "Max was a happy brown dog who lived on a green farm. Every morning, Max woke up early and ran out the door. He loved to chase bright yellow butterflies across the tall grass. When he got tired, he would sleep under a big apple tree. The farmer would always bring him a bowl of fresh water and a tasty biscuit at noon. Max thought it was the best life in the whole world.",
+    summary: "Simplified Summary:\nMax the dog lives a happy life on a farm, chasing butterflies, resting under trees, and eating treats from the farmer.",
+    vocab: [
+      "Farm: land used to grow crops and raise animals",
+      "Chase: to run after something to catch it",
+      "Tired: needing rest or sleep",
+      "Tasty: having a pleasant flavor"
+    ],
+    discussion: "What makes Max's daily routine so pleasant and relaxing?",
+    questions: [
+      { question: "Max is a happy brown dog.", answer: true },
+      { question: "He lives in a tall city building.", answer: false },
+      { question: "Max likes to chase yellow butterflies.", answer: true },
+      { question: "He sleeps under an apple tree when he is tired.", answer: true },
+      { question: "The farmer gives him pizza every noon.", answer: false }
+    ]
+  },
+  {
+    title: "The Mystery in the Library",
+    author: "Easy Reader Collection",
+    extract: "Anna loved to read books about old castles and secret treasures. One rainy Saturday afternoon, she sat on the blue sofa with a thick storybook. Suddenly, she heard a strange noise near the window. Tap, tap, tap went a small green branch hitting the glass in the wind. Anna smiled, closed her book, and poured herself a warm cup of cocoa. It was just the wind playing a game.",
+    summary: "Simplified Summary:\nWhile reading a book on a rainy day, Anna hears a tapping sound at the window, realizes it is just a tree branch, and relaxes with hot cocoa.",
+    vocab: [
+      "Castle: a large medieval building with thick walls",
+      "Treasure: valuable items like gold or jewels",
+      "Strange: unusual or surprising",
+      "Cocoa: a warm chocolate drink"
+    ],
+    discussion: "How did Anna figure out what was making the tapping noise?",
+    questions: [
+      { question: "Anna was reading a book about castles and treasures.", answer: true },
+      { question: "It was a sunny and hot summer day.", answer: false },
+      { question: "She heard a strange tapping noise near the window.", answer: true },
+      { question: "The noise was actually caused by a tree branch.", answer: true },
+      { question: "Anna got scared and ran out of the house.", answer: false }
+    ]
+  },
+  {
+    title: "A Trip to the Blue Sea",
+    author: "Easy Reader Collection",
+    extract: "Leo and his sister Mia went to the beach on a warm July day. The sand felt soft and hot beneath their bare feet. Mia brought a red plastic bucket and a small shovel to build a giant sandcastle. Leo walked along the water's edge to look for pretty white seashells. When the sun started to go down, they shared a cold ice cream cone before walking back home.",
+    summary: "Simplified Summary:\nLeo and Mia spend a fun day at the beach building sandcastles, collecting shells, and eating ice cream.",
+    vocab: [
+      "Beach: sandy shore next to the ocean",
+      "Bucket: an open container with a handle",
+      "Seashell: the hard shell of a sea animal",
+      "Cone: a pastry horn used to hold ice cream"
+    ],
+    discussion: "What are some fun activities you can do when visiting the beach?",
+    questions: [
+      { question: "Leo and Mia went to the beach in July.", answer: true },
+      { question: "The sand felt cold and freezing to their feet.", answer: false },
+      { question: "Mia used a red bucket to build a sandcastle.", answer: true },
+      { question: "Leo looked for seashells by the water.", answer: true },
+      { question: "They ate hot soup before going home.", answer: false }
+    ]
+  },
+  {
+    title: "The Little Red Bicycle",
+    author: "Easy Reader Collection",
+    extract: "Sam got a shiny red bicycle for his birthday. It had a silver bell that went ring-ring and two small training wheels to keep it steady. At first, Sam was a little nervous to ride it on the sidewalk. But his dad held the back of the seat and walked beside him. Soon, Sam was pedaling all by himself with a big smile on his face.",
+    summary: "Simplified Summary:\nSam receives a red bicycle for his birthday and learns how to ride it with his dad's help.",
+    vocab: [
+      "Bicycle: a vehicle with two wheels moved by pedals",
+      "Nervous: feeling worried or slightly scared",
+      "Sidewalk: a paved path for pedestrians by a street",
+      "Pedal: to push the foot-levers to make wheels turn"
+    ],
+    discussion: "Why did Sam feel nervous at first, and how did he overcome it?",
+    questions: [
+      { question: "Sam received a red bicycle for his birthday.", answer: true },
+      { question: "The bicycle had no wheels at all.", answer: false },
+      { question: "Sam felt a little nervous at the beginning.", answer: true },
+      { question: "His dad helped him by holding the seat.", answer: true },
+      { question: "Sam never learned how to ride the bicycle.", answer: false }
+    ]
+  },
+  {
+    title: "The Jungle Book (Mowgli's Brothers)",
+    author: "Rudyard Kipling (Adapted)",
+    extract: "Deep in the green jungle, Mother Wolf lived in a dark cave with her four baby wolf cubs. One evening, a loud noise echoed through the trees. A tiny human baby walked out of the bushes, laughing and looking for food. He had no clothes and was not afraid of the dark. Mother Wolf gently took the little boy in her mouth and put him safely beside her own cubs. She named him Mowgli, which means little frog.",
+    summary: "Simplified Summary:\nMother Wolf finds a brave human baby lost in the jungle, adopts him alongside her own cubs, and names him Mowgli.",
+    vocab: [
+      "Jungle: a wild land with thick trees and plants",
+      "Cubs: the babies of wild animals like wolves or bears",
+      "Afraid: feeling fear or worry",
+      "Safely: away from harm or danger"
+    ],
+    discussion: "How does Mother Wolf show kindness to a human child in a dangerous jungle?",
+    questions: [
+      { question: "Mother Wolf lived in a cave with her baby cubs.", answer: true },
+      { question: "A tiny human baby walked out of the bushes.", answer: true },
+      { question: "The baby was very scared and crying loudly.", answer: false },
+      { question: "Mother Wolf named the human boy Mowgli.", answer: true },
+      { question: "Mowgli means little bird in the story.", answer: false }
+    ]
+  },
+  {
+    title: "Alice's Adventures in Wonderland",
+    author: "Lewis Carroll (Adapted)",
+    extract: "Alice was sitting by the riverbank on a warm afternoon, getting very bored while her sister read a book. Suddenly, a white rabbit with pink eyes and a red waistcoat ran right past her. Even stranger, the rabbit pulled a large silver watch out of his pocket, looked at the time, and said out loud, 'Oh dear! Oh dear! I shall be too late!' Then the rabbit jumped down a deep rabbit hole in the ground. Without thinking, Alice followed him right in.",
+    summary: "Simplified Summary:\nWhile sitting by the river, Alice sees a talking white rabbit look at a watch and jump down a hole, prompting her to follow him.",
+    vocab: [
+      "Riverbank: the land at the side of a river",
+      "Waistcoat: a short vest worn over a shirt",
+      "Pocket: a small bag sewn into clothing",
+      "Follow: to go after someone or something"
+    ],
+    discussion: "Why do you think Alice decided to jump down the rabbit hole without hesitation?",
+    questions: [
+      { question: "Alice was sitting by the riverbank on a warm afternoon.", answer: true },
+      { question: "Her sister was writing a long letter.", answer: false },
+      { question: "A white rabbit ran past her wearing a waistcoat.", answer: true },
+      { question: "The rabbit looked at a silver watch and spoke.", answer: true },
+      { question: "Alice stayed where she was and went to sleep.", answer: false }
+    ]
+  },
+  {
+    title: "The Adventures of Tom Sawyer",
+    author: "Mark Twain (Adapted)",
+    extract: "It was a bright Saturday morning, the kind of day when all the other boys were going swimming and playing games. But Tom Sawyer had a heavy chore to do. Aunt Polly gave him a big bucket of white paint and a long brush, telling him to paint the entire wooden fence in front of the house. Tom looked at the huge fence, sighed deeply, and thought about how much fun he was missing out on in the warm sunshine.",
+    summary: "Simplified Summary:\nOn a sunny Saturday when he wants to go play, Tom Sawyer is given the tedious job of painting a long wooden fence by Aunt Polly.",
+    vocab: [
+      "Chore: a routine task or job that needs to be done",
+      "Paint: a colored liquid used to cover surfaces",
+      "Fence: a wooden wall built around a yard",
+      "Sigh: to let out a deep breath showing sadness or tiredness"
+    ],
+    discussion: "How does Tom feel about spending his Saturday working instead of playing?",
+    questions: [
+      { question: "The story takes place on a bright Saturday morning.", answer: true },
+      { question: "Tom was allowed to go swimming all day long.", answer: false },
+      { question: "Aunt Polly gave Tom a bucket of paint and a brush.", answer: true },
+      { question: "Tom had to paint the long wooden fence.", answer: true },
+      { question: "Tom was excited and happy to do his chores.", answer: false }
+    ]
+  },
+  {
+    title: "The Call of the Wild",
+    author: "Jack London (Adapted)",
+    extract: "Buck was a big, strong dog who lived on a comfortable sunny ranch in California. He ran through the large open fields, swam in the cool river, and slept by the big house porch. Buck thought his life would always be easy and peaceful. But the world was changing. It was the time of the gold rush, and strong dogs were needed far away in the cold, snowy north. One dark night, a stranger took Buck away from his happy home.",
+    summary: "Simplified Summary:\nBuck lives a comfortable life on a California ranch until men looking for strong dogs in the gold rush capture him and take him north.",
+    vocab: [
+      "Ranch: a large farm for raising animals",
+      "Peaceful: calm, quiet, and free from trouble",
+      "Snowy: covered with or full of snow",
+      "Stranger: a person whom one does not know"
+    ],
+    discussion: "How does Buck's comfortable life change abruptly at the beginning of the story?",
+    questions: [
+      { question: "Buck lived on a comfortable sunny ranch in California.", answer: true },
+      { question: "Buck was a small cat who hated swimming.", answer: false },
+      { question: "Strong dogs were needed in the cold north for the gold rush.", answer: true },
+      { question: "A stranger took Buck away from his home at night.", answer: true },
+      { question: "Buck chose to move to the snowy mountains on his own.", answer: false }
+    ]
+  },
+  {
+    title: "The Wizard of Oz",
+    author: "L. Frank Baum (Adapted)",
+    extract: "Dorothy lived in the dry, grey plains of Kansas with her aunt and uncle. Everything around her was the color of dust. One afternoon, a terrifying sound came howling across the flat land. A huge cyclone windstorm was spinning fast toward their little wooden house. Aunt Em shouted for Dorothy to run inside the storm cellar. But before Dorothy could reach safety, the powerful wind picked up the entire house and carried it high up into the cloudy sky.",
+    summary: "Simplified Summary:\nWhen a massive cyclone strikes her Kansas home, Dorothy gets trapped inside as the wind lifts her entire house up into the sky.",
+    vocab: [
+      "Plain: a large, flat area of land with few trees",
+      "Terrifying: causing extreme fear",
+      "Cyclone: a violent rotating windstorm or tornado",
+      "Cellar: a room built underground for safety"
+    ],
+    discussion: "What natural event sets off Dorothy's grand adventure in this opening scene?",
+    questions: [
+      { question: "Dorothy lived on a farm in the grey plains of Kansas.", answer: true },
+      { question: "The weather was bright, colorful, and tropical.", answer: false },
+      { question: "A huge cyclone windstorm came howling across the land.", answer: true },
+      { question: "The wind picked up the wooden house and carried it away.", answer: true },
+      { question: "Dorothy safely hid in the cellar before the storm hit.", answer: false }
+    ]
+  },
+  {
+    title: "The Busy Little Ant",
+    author: "Easy Reader Collection",
+    extract: "Pip was a very small ant with a very big job. He found a sweet green leaf that was three times bigger than he was. Pip did not give up. He pulled and pushed the leaf across the garden path, stepping over small pebbles and blades of grass. Other ants came over to help him carry it back to their underground home. Working together made the heavy job fast and easy.",
+    summary: "Simplified Summary:\nA tiny ant named Pip finds a large leaf and works hard to move it until other ants join in to help.",
+    vocab: [
+      "Garden: a piece of ground used for growing flowers or plants",
+      "Pull: to draw or drag something toward oneself",
+      "Garden path: a small walkway through plants",
+      "Underground: beneath the surface of the earth"
+    ],
+    discussion: "What lesson can we learn from Pip and the other ants working together?",
+    questions: [
+      { question: "Pip is a very small ant with a big job.", answer: true },
+      { question: "The leaf was smaller than Pip.", answer: false },
+      { question: "Pip pulled and pushed the leaf across the garden path.", answer: true },
+      { question: "Other ants came over to help him.", answer: true },
+      { question: "Working together made the task harder.", answer: false }
+    ]
+  }
+];
+
+let currentMode = 'classic';
+let currentPassage = 0;
+let userAnswers = {};
+let isSpeaking = false;
+let availableVoices = [];
+
+// Utility function: Shuffle array in place (Fisher-Yates)
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+// Randomize both libraries on initial page load
+shuffleArray(classicPassages);
+shuffleArray(easyPassages);
+
+// Speech Synthesis Setup
+function populateVoiceList() {
+  if (!('speechSynthesis' in window)) return;
+  availableVoices = window.speechSynthesis.getVoices();
+  filterVoicesByGender();
+}
+
+function filterVoicesByGender() {
+  const genderFilter = document.getElementById("voiceGenderSelect").value;
+  const voiceSelect = document.getElementById("voiceListSelect");
+  if (!voiceSelect) return;
+
+  const currentSelection = voiceSelect.value;
+  voiceSelect.innerHTML = '<option value="">Default Voice</option>';
+
+  availableVoices.forEach((voice, index) => {
+    if (voice.lang.startsWith('en')) {
+      const nameLower = voice.name.toLowerCase();
+      
+      let isMale = nameLower.includes('male') || nameLower.includes('david') || nameLower.includes('george') || 
+                   nameLower.includes('brian') || nameLower.includes('ryan') || nameLower.includes('daniel') || 
+                   nameLower.includes('james') || nameLower.includes('alex') || nameLower.includes('oliver') ||
+                   nameLower.includes('fred') || nameLower.includes('thomas');
+                   
+      let isFemale = nameLower.includes('female') || nameLower.includes('zira') || nameLower.includes('hazel') || 
+                     nameLower.includes('susan') || nameLower.includes('karen') || nameLower.includes('victoria') || 
+                     nameLower.includes('samantha') || nameLower.includes('fiona') || nameLower.includes('catherine') ||
+                     nameLower.includes('moira') || nameLower.includes('kathy');
+
+      let matches = false;
+      if (genderFilter === 'all') {
+        matches = true;
+      } else if (genderFilter === 'man') {
+        matches = isMale || (!isFemale && !nameLower.includes('female'));
+      } else if (genderFilter === 'woman') {
+        matches = isFemale || (!isMale && !nameLower.includes('male'));
+      }
+
+      if (matches) {
+        const option = document.createElement('option');
+        option.value = index;
+        let tag = isMale ? " (Man)" : isFemale ? " (Woman)" : "";
+        option.textContent = `${voice.name}${tag}`;
+        voiceSelect.appendChild(option);
+      }
+    }
+  });
+
+  if (currentSelection) {
+    voiceSelect.value = currentSelection;
+  }
+}
+
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = populateVoiceList;
+  setTimeout(populateVoiceList, 150);
+}
+
+function getCurrentLibrary() {
+  return currentMode === 'classic' ? classicPassages : easyPassages;
+}
+
+function startApp(mode) {
+  currentMode = mode;
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('appView').style.display = 'block';
+  
+  document.getElementById('btnClassic').classList.toggle('active', mode === 'classic');
+  document.getElementById('btnEasy').classList.toggle('active', mode === 'easy');
+  
+  loadPassage(0);
+}
+
+function returnToLanding() {
+  stopSpeech();
+  document.getElementById('appView').style.display = 'none';
+  document.getElementById('landingPage').style.display = 'block';
+}
+
+function switchMode(mode) {
+  stopSpeech();
+  currentMode = mode;
+  currentPassage = 0;
+  
+  document.getElementById('btnClassic').classList.toggle('active', mode === 'classic');
+  document.getElementById('btnEasy').classList.toggle('active', mode === 'easy');
+  
+  loadPassage(0);
+}
+
+function loadPassage(index){
+  stopSpeech();
+  currentPassage = index;
+  const library = getCurrentLibrary();
+  const p = library[index];
+
+  document.getElementById("bookTitle").textContent = p.title;
+  document.getElementById("bookAuthor").textContent = "by " + p.author;
+  document.getElementById("extractText").textContent = p.extract;
+
+  document.getElementById("summaryBox").innerHTML = "<strong>Simplified Summary:</strong><br><br>" + p.summary;
+  document.getElementById("summaryBox").style.display = "none";
+
+  const vocabList = document.getElementById("vocabList");
+  vocabList.innerHTML = "";
+  p.vocab.forEach(word => {
+    let li = document.createElement("li");
+    li.className = "vocab-tag";
+    li.innerHTML = `<strong>${word}</strong>`;
+    vocabList.appendChild(li);
+  });
+
+  document.getElementById("discussionPrompt").textContent = p.discussion;
+
+  userAnswers = {};
+  renderQuiz();
+}
+
+function loadRandomPassage(){
+  stopSpeech();
+  const library = getCurrentLibrary();
+  let random;
+  do {
+    random = Math.floor(Math.random() * library.length);
+  } while (random === currentPassage && library.length > 1);
+  loadPassage(random);
+}
+
+function toggleSummary(){
+  const box = document.getElementById("summaryBox");
+  box.style.display = (box.style.display === "block") ? "none" : "block";
+}
+
+/* Text-to-Speech (TTS) Controls */
+function toggleSpeech() {
+  if ('speechSynthesis' in window) {
+    if (isSpeaking) {
+      stopSpeech();
+    } else {
+      const text = document.getElementById("extractText").textContent;
+      const utterance = new SpeechSynthesisUtterance(text);
+      
+      const speedSelect = document.getElementById("speedSelect");
+      utterance.rate = speedSelect ? parseFloat(speedSelect.value) : 0.9;
+
+      const voiceSelect = document.getElementById("voiceListSelect");
+      if (voiceSelect && voiceSelect.value !== "") {
+        const selectedVoice = availableVoices[parseInt(voiceSelect.value)];
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+      }
+      
+      utterance.onend = function() {
+        isSpeaking = false;
+        document.getElementById("ttsBtn").textContent = "🔊 Listen";
+      };
+      
+      window.speechSynthesis.speak(utterance);
+      isSpeaking = true;
+      document.getElementById("ttsBtn").textContent = "⏹ Stop Listening";
+    }
+  } else {
+    alert("Sorry, Text-to-Speech is not supported in your browser.");
+  }
+}
+
+function stopSpeech() {
+  if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+  }
+  isSpeaking = false;
+  const btn = document.getElementById("ttsBtn");
+  if (btn) btn.textContent = "🔊 Listen";
+}
+
+function renderQuiz(){
+  const library = getCurrentLibrary();
+  const container = document.getElementById("quizContainer");
+  container.innerHTML = "";
+
+  library[currentPassage].questions.forEach((q, index) => {
+    const div = document.createElement("div");
+    div.className = "question-item";
+    div.innerHTML = `
+      <div class="question-text">${index + 1}. ${q.question}</div>
+      <div class="options-group">
+        <button class="option-btn" onclick="selectAnswer(${index}, true)" id="t${index}">True</button>
+        <button class="option-btn" onclick="selectAnswer(${index}, false)" id="f${index}">False</button>
+      </div>
+      <div id="feedback${index}" class="feedback"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectAnswer(index, value){
+  userAnswers[index] = value;
+  document.getElementById("t" + index).classList.toggle("selected", value === true);
+  document.getElementById("f" + index).classList.toggle("selected", value === false);
+}
+
+function checkAnswers(){
+  const library = getCurrentLibrary();
+  const questions = library[currentPassage].questions;
+  
+  questions.forEach((q, index) => {
+    const feedback = document.getElementById("feedback" + index);
+    if(userAnswers[index] === undefined){
+      feedback.className = "feedback incorrect";
+      feedback.textContent = "Please select True or False.";
+    } else if(userAnswers[index] === q.answer){
+      feedback.className = "feedback correct";
+      feedback.textContent = "✓ Correct!";
+    } else {
+      feedback.className = "feedback incorrect";
+      feedback.textContent = "✗ Incorrect. Try again!";
+    }
+  });
+}
+</script>
+<footer style="text-align: center; font-size: 9px; color: #999; padding: 20px 10px; margin-top: 30px;">
+  <a href="README.md" target="_blank" style="color: #999; text-decoration: underline; font-size: 12px; display: inline-block; margin-bottom: 5px;">HELP</a><br>
+  © 2026 James Wynne<br>
+  <a href="https://jwynne.wixsite.com/english" target="_blank" style="color: #999; text-decoration: none;">website</a>
+  <a href="mailto:james_wynne@hotmail.com" style="color: #999; text-decoration: none;">email</a>
+  <a href="https://wa.me/393515316723" target="_blank" style="color: #999; text-decoration: none;">whatsapp</a>
+</footer>
+
+</body>
+</html>
